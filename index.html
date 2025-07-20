@@ -9,8 +9,19 @@
 </head>
 
 <body>
+    <header>
+        <h1>App Title</h1>
+        <span class="username"></span>
+    </header>
     <h1>Hello, World!</h1>
     <p>This is a simple HTML document.</p>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Example: Replace this with actual logic to fetch the user's name
+            const username = "Joe Doe"; // Replace with dynamic data source
+            document.querySelector(".username").textContent = username;
+        });
+    </script>
 
     <footer>
         Derechos reservados en Perú © 2026
