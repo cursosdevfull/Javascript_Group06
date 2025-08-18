@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <script src="assets/scripts/app.js" defer></script>
+    <title>Conversor de Temperatura</title>
+</head>
+
+<body>
+    <div class="background-animation">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-thermometer-half"></i> Conversor de Temperatura</h1>
+            <p>Convierte temperaturas entre Celsius y Fahrenheit</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="converter-section">
+            <div class="converter-card">
+
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="celsiusInput">
+                            <i class="fas fa-snowflake"></i>
+                            Temperatura en Celsius (°C)</label>
+                        <input type="number" id="celsiusInput" placeholder="Ingrese grados Celsius">
+                        <span class="input-indicator celsius-indicator"></span>
+                    </div>
+
+                    <div class="conversion-arrow">
+                        <button id="swapButton" class="swap-btn">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="fahrenheitInput">
+                            <i class="fas fa-temperature-high"></i>
+                            Temperatura en Fahrenheit (°F)</label>
+                        <input type="number" id="fahrenheitInput" placeholder="Ingrese grados Fahrenheit">
+                        <span class="input-indicator fahrenheit-indicator"></span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="cities-section">
+            <h2><i class="fas fa-globe"></i> Comparar con Ciudades del Mundo</h2>
+            <div class="cities-grid" id="citiesGrid">
+            </div>
+        </section>
+
+        <section class="chart-section">
+            <h2><i class="fas fa-chart-line"></i> Gráfico de Conversión</h2>
+            <div class="chart-container">
+                <canvas id="temperatureChart" width="800" height="400"></canvas>
+            </div>
+            <div class="chart-controls">
+                <button id="updateChart" class="chart-btn">
+                    <i class="fas fa-sync-alt"></i> Actualizar Gráfico
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage">Ha ocurrido un error</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
