@@ -9,6 +9,12 @@ const Config = {
     },
 };
 
+const Constants = {
+    CELSIUS: "celsius",
+    FAHRENHEIT: "fahrenheit",
+    ENTER_KEY: "Enter"
+}
+
 const WORLD_CITIES = [
     { name: 'Madrid, España', celsius: 15, description: 'Capital española' },
     { name: 'Londres, Reino Unido', celsius: 10, description: 'Ciudad británica' },
@@ -26,6 +32,7 @@ class TemperatureConvert {
     constructor() {
         this.chart = null
         this.isConverting = false;
+        this.currentTemperature = null
 
         this.initializeElements();
         this.bindEvents();
@@ -53,9 +60,14 @@ class TemperatureConvert {
         this.elements.celsiusInput.addEventListener("input", (e) =>
             this.handleCelsiusInput(e)
         );
+
+        this.elements.celsiusInput.addEventListener("keypress", e => this.handleKeyPress(e, Constants.CELSIUS))
+
         this.elements.fahrenheitInput.addEventListener("input", (e) =>
             this.handleFahrenheitInput(e)
         );
+
+        this.elements.fahrenheitInput.addEventListener("keypress", e => this.handleKeyPress(e, Constants.FAHRENHEIT))
 
         this.elements.swapButton.addEventListener("click", () =>
             this.swapTemperatures()
@@ -83,6 +95,7 @@ class TemperatureConvert {
         }
 
         this.isConverting = true;
+        this.currentTemperature = value
 
         const fahrenheit = this.celsiusToFahrenheit(value);
         this.elements.fahrenheitInput.value = fahrenheit.toFixed(1);
@@ -104,7 +117,7 @@ class TemperatureConvert {
             return;
         }
 
-        if (!this.validateTemperature(value, "fahrenheit")) {
+        if (!this.validateTemperature(value, Constants.FAHRENHEIT)) {
             this.showError("Temperature off range valid");
             return;
         }
@@ -114,6 +127,8 @@ class TemperatureConvert {
         const celsius = this.fahrenheitToCelsius(value);
         this.elements.celsiusInput.value = celsius.toFixed(1);
 
+        this.currentTemperature = celsius
+
         this.highlightRelevantCities(celsius)
 
         setTimeout(() => {
@@ -121,10 +136,16 @@ class TemperatureConvert {
         }, Config.TIMEOUT.CONVERTING_TEMPERATURE);
     }
 
+    handleKeyPress(e, unit) {
+        if (e.key === Constants.ENTER_KEY) {
+            this.addCurrentToChart()
+        }
+    }
+
     validateTemperature(value, unit) {
         let celsiusValue = value;
 
-        if (unit === "fahrenheit") {
+        if (unit === Constants.FAHRENHEIT) {
             celsiusValue = this.fahrenheitToCelsius(value);
         }
 
@@ -241,6 +262,12 @@ class TemperatureConvert {
             labels: celsiusRange.map(c => `${c}°C`),
             celsius: celsiusRange,
             farenheit: farenheitValues
+        }
+    }
+
+    addCurrentToChart() {
+        if (this.currentTemperature) {
+            this.chart.highlightPoint(this.currentTemperature)
         }
     }
 }
@@ -536,7 +563,7 @@ class SimpleChart {
         if (!this.data) return;
 
         const celsius = this.highlightedPoint
-        const farenheit = this.celsiusToFahrenheit(celsius)
+        const farenheit = (celsius * 9 / 5) + 32
 
         const minC = Math.min(...this.data.celsius)
         const maxC = Math.max(...this.data.celsius)
