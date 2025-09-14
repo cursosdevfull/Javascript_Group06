@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Usuarios</title>
+    <link rel="stylesheet" href="assets/styles/app.css">
+    <!-- <script defer src="assets/scripts/app.js"></script> -->
+    <script type="module" src="assets/scripts/portal.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Portal de Usuarios</h1>
+            <nav class="breadcrumb" id="breadcrumb">
+                <span class="breadcrumb-item active">Usuarios</span>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Users Section -->
+            <section class="section active" id="users-section">
+                <div class="section-header">
+                    <h2>Lista de Usuarios</h2>
+                    <div class="loading" id="users-loading">Cargando usuarios...</div>
+                </div>
+                <div class="users-grid" id="users-grid">
+                    <!-- Users will be populated here -->
+                </div>
+            </section>
+
+            <!-- User Details Section -->
+            <section class="section" id="user-details-section">
+                <div class="section-header">
+                    <button class="btn-back" id="btn-back-to-users">← Volver a Usuarios</button>
+                    <h2>Detalles del Usuario</h2>
+                </div>
+
+                <!-- User Info -->
+                <div class="user-info" id="user-info">
+                    <!-- User details will be populated here -->
+                </div>
+
+                <!-- User Content Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" id="tab-todos">Tareas</button>
+                    <button class="tab-btn" id="tab-posts">Publicaciones</button>
+                    <button class="tab-btn" id="tab-albums">Álbumes</button>
+                </div>
+
+                <!-- Todos Content -->
+                <div class="tab-content active" id="todos-content">
+                    <div class="loading" id="todos-loading">Cargando tareas...</div>
+                    <div class="todos-list" id="todos-list">
+                        <!-- Todos will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Posts Content -->
+                <div class="tab-content" id="posts-content">
+                    <div class="loading" id="posts-loading">Cargando publicaciones...</div>
+                    <div class="posts-list" id="posts-list">
+                        <!-- Posts will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Albums Content -->
+                <div class="tab-content" id="albums-content">
+                    <div class="loading" id="albums-loading">Cargando álbumes...</div>
+                    <div class="albums-grid" id="albums-grid">
+                        <!-- Albums will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Post Details Section -->
+            <section class="section" id="post-details-section">
+                <div class="section-header">
+                    <button class="btn-back" id="btn-back-to-posts">← Volver a Publicaciones</button>
+                    <h2>Detalles de la Publicación</h2>
+                </div>
+
+                <div class="post-details" id="post-details">
+                    <!-- Post details will be populated here -->
+                </div>
+
+                <div class="comments-section">
+                    <h3>Comentarios</h3>
+                    <div class="loading" id="comments-loading">Cargando comentarios...</div>
+                    <div class="comments-list" id="comments-list">
+                        <!-- Comments will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Album Details Section -->
+            <section class="section" id="album-details-section">
+                <div class="section-header">
+                    <button class="btn-back" id="btn-back-to-albums">← Volver a Álbumes</button>
+                    <h2>Fotos del Álbum</h2>
+                </div>
+
+                <div class="album-info" id="album-info">
+                    <!-- Album info will be populated here -->
+                </div>
+
+                <div class="photos-section">
+                    <div class="loading" id="photos-loading">Cargando fotos...</div>
+                    <div class="photos-grid" id="photos-grid">
+                        <!-- Photos will be populated here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for photo viewing -->
+    <div class="modal" id="photo-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <img class="modal-image" id="modal-image" src="" alt="">
+            <div class="modal-caption" id="modal-caption">Description</div>
+        </div>
+    </div>
+
+    <!-- Template for User Card -->
+    <template id="user-card-template">
+        <div class="user-card" data-user-id="">
+            <div class="user-avatar">
+                <span class="user-initials"></span>
+            </div>
+            <div class="user-details">
+                <h3 class="user-name"></h3>
+                <p class="user-username"></p>
+                <p class="user-email"></p>
+                <p class="user-company"></p>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for Todo Item -->
+    <template id="todo-template">
+        <div class="todo-item">
+            <div class="todo-checkbox">
+                <input type="checkbox" disabled>
+            </div>
+            <div class="todo-content">
+                <span class="todo-title"></span>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for Post Item -->
+    <template id="post-template">
+        <div class="post-item" data-post-id="">
+            <h3 class="post-title"></h3>
+            <p class="post-body"></p>
+            <div class="post-actions">
+                <button class="btn-view-comments">Ver Comentarios</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for Album Item -->
+    <template id="album-template">
+        <div class="album-item" data-album-id="">
+            <div class="album-thumbnail">
+                <img src="" alt="" class="album-thumb-img">
+            </div>
+            <div class="album-content">
+                <h3 class="album-title"></h3>
+                <button class="btn-view-photos">Ver Fotos</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for Comment Item -->
+    <template id="comment-template">
+        <div class="comment-item">
+            <div class="comment-header">
+                <h4 class="comment-name"></h4>
+                <span class="comment-email"></span>
+            </div>
+            <p class="comment-body"></p>
+        </div>
+    </template>
+
+    <!-- Template for Photo Item -->
+    <template id="photo-template">
+        <div class="photo-item" data-photo-id="">
+            <img class="photo-thumbnail" src="" alt="">
+            <div class="photo-overlay">
+                <span class="photo-title"></span>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for User Details -->
+    <template id="user-details-template">
+        <div class="user-details-header">
+            <div class="user-avatar-large">
+                <span class="user-initials-large"></span>
+            </div>
+            <div class="user-main-info">
+                <h2 class="user-full-name"></h2>
+                <p class="user-username-detail"></p>
+                <p class="user-email-detail"></p>
+            </div>
+        </div>
+        <div class="user-info-grid">
+            <div class="user-info-section">
+                <h3>📍 Información de Contacto</h3>
+                <p class="user-phone"></p>
+                <p class="user-website"></p>
+            </div>
+            <div class="user-info-section">
+                <h3>🏠 Dirección</h3>
+                <p class="user-address-street"></p>
+                <p class="user-address-city"></p>
+                <p class="user-address-zipcode"></p>
+            </div>
+            <div class="user-info-section">
+                <h3>🏢 Empresa</h3>
+                <p class="user-company-name"></p>
+                <p class="user-company-catchphrase"></p>
+                <p class="user-company-bs"></p>
+            </div>
+        </div>
+    </template>
+</body>
+
+</html>
