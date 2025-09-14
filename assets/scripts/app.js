@@ -14,5 +14,3 @@ export class App {
         this.cart.addProduct(product)
     }
 }
-
-App.init("app")
